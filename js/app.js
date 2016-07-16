@@ -17,3 +17,15 @@ $("#post-button").bind("click", function() {
     }
     return false;
 });
+
+fireBaseRef.on('child_added', function(snapshot) {
+    var uniqName = snapshot.name();
+    var comment = snapshot.val().comment;
+    var commentsContainer = $('#comments-container');
+
+    $('<div/>', {class: 'comment-container'})
+        .html('<span class="label label-default">Comment ' 
+            + uniqName + '</span>' + comment).appendTo(commentsContainer);
+
+    commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
+});
