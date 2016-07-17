@@ -6,18 +6,6 @@
     <title>Firebase Chat Application</title>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     
-    <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyC9sjMfURcz095wLBY1Y45m4vvUHoyeY3s",
-            authDomain: "chatapp-ba088.firebaseapp.com",
-            databaseURL: "https://chatapp-ba088.firebaseio.com",
-            storageBucket: "chatapp-ba088.appspot.com",
-        };
-        firebase.initializeApp(config);
-    </script>
-    
     <style>
         .container {
             max-width: 700px;
@@ -78,12 +66,59 @@
         </div>
     </div>
  
-    <script src="http://cdn.firebase.com/js/client/1.0.6/firebase.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC9sjMfURcz095wLBY1Y45m4vvUHoyeY3s",
+            authDomain: "chatapp-ba088.firebaseapp.com",
+            databaseURL: "https://chatapp-ba088.firebaseio.com",
+            storageBucket: "chatapp-ba088.appspot.com",
+        };
+        var fireBaseRef = firebase.initializeApp(config);
+        
+        
+        function writeNewPost(uid, username, title, body) {
+            // A post entry.
+            var postData = {
+                author: username,
+                uid: uid,
+                body: body,
+                title: title,
+                starCount: 0
+            };
+
+            // Get a key for a new Post.
+            var newPostKey = firebase.database().ref().child('posts').push().key;
+
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            updates['/posts/' + newPostKey] = postData;
+            updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+            return firebase.database().ref().update(updates);
+        }
+        
+        // Create new comment.
+        $("#post-button").click(function(){
+            createNewComment(postId, firebase.auth().currentUser.displayName, uid, commentInput.value);
+            commentInput.value = '';
+            commentInput.parentElement.MaterialTextfield.boundUpdateClassesHandler();
+            
+            return false;
+        }
+        
+    </script>
+    
     <script>
  
-        var fireBaseRef = new Firebase("https://chatapp-ba088.firebaseio.com");
+        //var fireBaseRef = new Firebase("https://chatapp-ba088.firebaseio.com");
  
         $("#submit-btn").bind("click", function() {
             var comment = $("#comments");
