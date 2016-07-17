@@ -1,13 +1,23 @@
-var fireBaseRef = new Firebase("https://chatapp-ba088.firebaseio.com/");
+//var fireBaseRef = new Firebase("https://chatapp-ba088.firebaseio.com");
+// Initialize Firebase
+  var fireBaseRef = {
+    apiKey: "AIzaSyC9sjMfURcz095wLBY1Y45m4vvUHoyeY3s",
+    authDomain: "chatapp-ba088.firebaseapp.com",
+    databaseURL: "https://chatapp-ba088.firebaseio.com",
+    storageBucket: "chatapp-ba088.appspot.com",
+  };
 
-$("#post-button").bind("click", function() {
+  firebase.initializeApp(fireBaseRef);
+
+$("#post-button").click(function(){
+    alert();
     var comment = $("#message");
-    var comment_value = $.trim(comment.val());
+    var commentValue = $.trim(comment.val());
     
     if (commentValue.length === 0) {
         alert('Messages can not be blank!');
     } else {
-        _fireBaseRef.push({comment: commentValue}, function(error) {
+        fireBaseRef.push({comment: commentValue}, function(error) {
             if (error !== null) {
                 alert('Unable to post your message!. Try again later.');
             }
