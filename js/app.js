@@ -66,7 +66,7 @@ function getMessagesFromDB() {
 // Create new comment.
 $("#submit-btn").click(function(){
     var messageInput = document.getElementById('comments');
-    alert(messageInput.value);
+    
     if (messageInput.value) {
         var postText = messageInput.value;
         messageInput.value = '';
