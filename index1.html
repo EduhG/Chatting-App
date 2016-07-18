@@ -1,156 +1,58 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Firebase Chat Application</title>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chatting App</title>
+        <link rel="stylesheet" href="css/foundation.css">
+        <link rel="stylesheet" href="css/app.css">
+    </head>
     
-    <style>
-        .container {
-            max-width: 700px;
-        }
- 
-        #comments-container {
-            border: 1px solid #d0d0d0;
-            height: 400px;
-            overflow-y: scroll;
-        }
- 
-        .comment-container {
-            padding: 10px;
-            margin:6px;
-            background: #f5f5f5;
-            font-size: 13px;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-        }
- 
-        .comment-container .label {
-            margin-right: 20px;
-        }
- 
-        .comment-container:last-of-type {
-            border-bottom: none;
-        }
-    </style>
-</head>
-<body>
- 
-    <div class="container">
- 
-        <h1>Firebase Chat Application</h1>
- 
-        <div class="panel panel-default">
- 
-            <div class="panel-body">
-                <div id="comments-container"></div>
-            </div>
- 
-            <div class="panel-footer">
- 
-                <form role="form">
-                    <div class="form-group">
-                        <label for="comments">Please enter your comments here</label>
-                        <input class="form-control" id="comments" name="comments">
+    <body>
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="container">
+                    <h1>Chatting App</h1>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body"></div>
+                        
+                        <div class="panel-footer">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>
+                                        <textarea id="message" name="message" placeholder="Please enter your message here"></textarea>
+                                    </label>
+                                </div>
+
+                                <button type="submit" id="post-button" name="submit-btn"
+                                    class="success button">Post Comments</button>
+
+                                <button type="reset" class="alert button">Clear Comments</button>
+                            </form>
+
+                        </div>
                     </div>
- 
-                    <button type="submit" id="submit-btn" name="submit-btn"
-                        class="btn btn-success">Send Comments</button>
- 
-                    <button type="reset" class="btn btn-danger">Clear Comments</button>
-                </form>
- 
+                </div>
             </div>
         </div>
-    </div>
- 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
-    
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyC9sjMfURcz095wLBY1Y45m4vvUHoyeY3s",
-            authDomain: "chatapp-ba088.firebaseapp.com",
-            databaseURL: "https://chatapp-ba088.firebaseio.com",
-            storageBucket: "chatapp-ba088.appspot.com",
-        };
-        var fireBaseRef = firebase.initializeApp(config);
-        
-        
-        function writeNewPost(uid, username, title, body) {
-            // A post entry.
-            var postData = {
-                author: username,
-                uid: uid,
-                body: body,
-                title: title,
-                starCount: 0
-            };
 
-            // Get a key for a new Post.
-            var newPostKey = firebase.database().ref().child('posts').push().key;
-
-            // Write the new post's data simultaneously in the posts list and the user's post list.
-            var updates = {};
-            updates['/posts/' + newPostKey] = postData;
-            updates['/user-posts/' + uid + '/' + newPostKey] = postData;
-
-            return firebase.database().ref().update(updates);
-        }
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/vendor/what-input.js"></script>
+        <script src="js/vendor/foundation.js"></script>
         
-        // Create new comment.
-        $("#post-button").click(function(){
-            createNewComment(postId, firebase.auth().currentUser.displayName, uid, commentInput.value);
-            commentInput.value = '';
-            commentInput.parentElement.MaterialTextfield.boundUpdateClassesHandler();
-            
-            return false;
-        }
-        
-    </script>
-    
-    <script>
- 
-        //var fireBaseRef = new Firebase("https://chatapp-ba088.firebaseio.com");
- 
-        $("#submit-btn").bind("click", function() {
-            var comment = $("#comments");
-            var commentValue = $.trim(comment.val());
- 
-            if (commentValue.length === 0) {
-                alert('Comments are required to continue!');
-            } else {
-                fireBaseRef.push({comment: commentValue}, function(error) {
-                    if (error !== null) {
-                        alert('Unable to push comments to Firebase!');
-                    }
-                });
- 
-                comment.val("");
-            }
- 
-            return false;
-        });
- 
-        fireBaseRef.on('child_added', function(snapshot) {
-            var uniqName = snapshot.name();
-            var comment = snapshot.val().comment;
-            var commentsContainer = $('#comments-container');
- 
-            $('<div/>', {class: 'comment-container'})
-                .html('<span class="label label-default">Comment ' 
-                    + uniqName + '</span>' + comment).appendTo(commentsContainer);
- 
-            commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
-        });
- 
-    </script>
-</body>
+        <script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC9sjMfURcz095wLBY1Y45m4vvUHoyeY3s",
+    authDomain: "chatapp-ba088.firebaseapp.com",
+    databaseURL: "https://chatapp-ba088.firebaseio.com",
+    storageBucket: "chatapp-ba088.appspot.com",
+  };
+  firebase.initializeApp(config);
+</script>
+        <script src="js/app.js"></script>
+    </body>
 </html>
