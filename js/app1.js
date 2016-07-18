@@ -30,14 +30,12 @@ firebase.auth().signInWithPopup(provider).then(function(result) {
     // ...
 });
 
-function writeNewPost(uid, username, title, body) {
+function writeNewPost(uid, username, message) {
     // A post entry.
     var postData = {
         author: username,
         uid: uid,
-        body: body,
-        title: title,
-        starCount: 0
+        message: message
     };
 
     // Get a key for a new Post.
@@ -53,11 +51,25 @@ function writeNewPost(uid, username, title, body) {
 
 // Create new comment.
 $("#submit-btn").click(function(){
-    alert();
-    createNewComment(postId, firebase.auth().currentUser.displayName, uid, commentInput.value);
-    commentInput.value = '';
-    commentInput.parentElement.MaterialTextfield.boundUpdateClassesHandler();
-
+    var messageInput = document.getElementById('comments');
+    alert(messageInput.value);
+    if (messageInput.value) {
+        var postText = messageInput.value;
+        messageInput.value = '';
+        // [START single_value_read]
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+            var username = snapshot.val().username;
+            // [START_EXCLUDE]
+            writeNewPost(
+                firebase.auth().currentUser.uid,
+                firebase.auth().currentUser.displayName,
+                postText);
+            // [END_EXCLUDE]
+        });
+        // [END single_value_read]
+    }
+    
     return false;
 });
 
