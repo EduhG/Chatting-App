@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Firebase Chat Application</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+    <style>
+        .container {
+            max-width: 700px;
+        }
+ 
+        #comments-container {
+            border: 1px solid #d0d0d0;
+            height: 400px;
+            overflow-y: scroll;
+        }
+ 
+        .comment-container {
+            padding: 10px;
+            margin:6px;
+            background: #f5f5f5;
+            font-size: 13px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+ 
+        .comment-container .label {
+            margin-right: 20px;
+        }
+ 
+        .comment-container:last-of-type {
+            border-bottom: none;
+        }
+        
+        /* Splash Page */
+
+        #page-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0288D1;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-direction: column;
+        }
+        
+        .logo {
+            font-family: 'Amaranth', sans-serif;
+        }
+        .logo .material-icons {
+            top: 4px;
+            font-size: 32px;
+            margin-right: -2px;
+            position: relative;
+        }
+        
+        #sign-in-button {
+    margin-left: 10px;
+    color: inherit;
+}
+#sign-out-button {
+    margin: 10px;
+    color: inherit;
+}
+.mdl-button .material-icons {
+    margin-top: -2px;
+}
+.mdl-button.mdl-button--icon .material-icons,
+.mdl-button.mdl-button--fab .material-icons {
+    margin-top: 0;
+}
+        
+    </style>
+</head>
+<body>
+ 
+    <div class="container">
+        <!-- Splash screen -->
+        <section id="page-splash">
+            <h3 class="logo">Chatting App</h3>
+            <div>
+                <button id="sign-in" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect btn"> Sign in with Google</button>
+            </div>
+        </section>
+        
+        <h1>Firebase Chat Application</h1>
+        
+        <div class="account-details">
+            <div id="user-name"></div>
+            <div><button id="sign-out" class="mdl-button--raised mdl-button mdl-js-button mdl-js-ripple-effect btn"> Sign in with Google</button></div>
+        </div>
+ 
+        <div class="panel panel-default">
+ 
+            <div class="panel-body">
+                <div id="comments-container"></div>
+            </div>
+ 
+            <div class="panel-footer">
+ 
+                <form role="form">
+                    <div class="form-group">
+                        <label for="comments">Please enter your comments here</label>
+                        <input class="form-control" id="comments" name="comments">
+                    </div>
+ 
+                    <button type="submit" id="submit-btn" name="submit-btn"
+                        class="btn btn-success">Send Comments</button>
+ 
+                    <button type="reset" class="btn btn-danger">Clear Comments</button>
+                </form>
+ 
+            </div>
+        </div>
+    </div>
+ 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    
+    <script src="js/app1.js"></script>
+    
+</body>
+</html>
