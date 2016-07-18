@@ -49,6 +49,38 @@ function writeNewPost(uid, username, message) {
     return firebase.database().ref().update(updates);
 }
 
+/**
+ * Starts listening for new posts and populates posts lists.
+ */
+var containerElement = document.getElementById('messages-container');
+
+function getMessagesFromDB() {
+    // [START my_top_posts_query]
+    var myUserId = firebase.auth().currentUser.uid;
+    // [END my_top_posts_query]
+    // [START recent_posts_query]
+    var recentMessagesRef = firebase.database().ref('posts').limitToLast(100);
+    // [END recent_posts_query]
+    var userMessagesRef = firebase.database().ref('user-posts/' + myUserId);
+
+    var fetchPosts = function(postsRef) {
+        
+        postsRef.on('child_added', function(snapshot) {
+            var author = snapshot.val().author;
+            var message = snapshot.val().message;
+            var commentsContainer = $('#comments-container');
+
+            $('<div/>', {class: 'comment-container'})
+                .html('<span class="label label-default">' 
+                    + author + '</span>' + message).appendTo(commentsContainer);
+
+            commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
+        });
+  };
+
+  fetchPosts(recentMessagesRef);
+}
+
 // Create new comment.
 $("#submit-btn").click(function(){
     var messageInput = document.getElementById('comments');
@@ -95,6 +127,9 @@ window.addEventListener('load', function() {
             email = user.email;
             photoUrl = user.photoURL;
             uid = user.uid;
+            
+            
+            getMessagesFromDB();
             
         } else {
             splashPage.style.display = '';
