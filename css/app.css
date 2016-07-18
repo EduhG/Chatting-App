@@ -15,11 +15,22 @@
 .comment-container {
     padding: 10px;
     margin:6px;
-    background: #f5f5f5;
     font-size: 13px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
+}
+
+.other-messages {
+    background: #f5f5f5;
+}
+
+.my-name {
+    background: red !important;
+}
+
+.my-messages {
+    background: #999;
 }
 
 .comment-container .label {

@@ -69,12 +69,21 @@ function getMessagesFromDB() {
             var author = snapshot.val().author;
             var message = snapshot.val().message;
             var commentsContainer = $('#comments-container');
+            
+            if (author === name) {
+                console.log(name);
+                $('<div/>', {class: 'comment-container my-messages'})
+                    .html('<span class="label label-default my-name" style="background: green">' 
+                        + author + '</span>' + message).appendTo(commentsContainer);
 
-            $('<div/>', {class: 'comment-container'})
-                .html('<span class="label label-default">' 
-                    + author + '</span>' + message).appendTo(commentsContainer);
+                commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
+            } else {
+                $('<div/>', {class: 'comment-container other-messages'})
+                    .html('<span class="label label-default">' 
+                        + author + '</span>' + message).appendTo(commentsContainer);
 
-            commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
+                commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
+            }
         });
   };
 
