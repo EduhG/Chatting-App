@@ -8,6 +8,8 @@ var config = {
 var fireBaseRef = firebase.initializeApp(config);
 var provider = new firebase.auth.GoogleAuthProvider();
 
+var name, email, photoUrl, uid;
+
 var splashPage = document.getElementById('page-splash');
 var userName = document.getElementById('user-name');
 
@@ -62,51 +64,31 @@ $("#submit-btn").click(function(){
 $("#sign-in").click(function(){
     firebase.auth().signInWithPopup(provider);
     
-    /*firebase.auth().signInWithPopup(provider).then(function(result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        console.log(user);
-        // ...
-    }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-    });*/
-
     return false;
 });
 
-/**
- * Writes the user's data to the database.
- */
-// [START basic_write]
-function writeUserData(userId, name, email, imageUrl) {
-    firebase.database().ref('users/' + userId).set({
-        username: name,
-        email: email,
-        profile_picture : imageUrl
-    });
-}
-// [END basic_write]
+$("#sign-out").click(function(){
+    firebase.auth().signOut();
+    
+    return false;
+});
 
 window.addEventListener('load', function() {
     // Listen for auth state changes
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             splashPage.style.display = 'none';
-            writeUserData(user.uid, user.displayName, user.email, user.photoURL);
-            //startDatabaseQueries();
+            
+            name = user.displayName;
+            email = user.email;
+            photoUrl = user.photoURL;
+            uid = user.uid;
+            
         } else {
             splashPage.style.display = '';
         }
     });
     
-    userName.innerHTML = firebase.auth().currentUser.displayName;
+    userName.innerHTML = "You are signed in as: " + name;
+    
 });
