@@ -8,6 +8,9 @@ var config = {
 var fireBaseRef = firebase.initializeApp(config);
 var provider = new firebase.auth.GoogleAuthProvider();
 
+var splashPage = document.getElementById('page-splash');
+var userName = document.getElementById('user-name');
+
 firebase.auth().signInWithPopup(provider).then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = result.credential.accessToken;
@@ -57,11 +60,14 @@ $("#submit-btn").click(function(){
 });
 
 $("#sign-in").click(function(){
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+    firebase.auth().signInWithPopup(provider);
+    
+    /*firebase.auth().signInWithPopup(provider).then(function(result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
+        console.log(user);
         // ...
     }).catch(function(error) {
         // Handle Errors here.
@@ -72,7 +78,35 @@ $("#sign-in").click(function(){
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         // ...
-    });
+    });*/
 
     return false;
+});
+
+/**
+ * Writes the user's data to the database.
+ */
+// [START basic_write]
+function writeUserData(userId, name, email, imageUrl) {
+    firebase.database().ref('users/' + userId).set({
+        username: name,
+        email: email,
+        profile_picture : imageUrl
+    });
+}
+// [END basic_write]
+
+window.addEventListener('load', function() {
+    // Listen for auth state changes
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            splashPage.style.display = 'none';
+            writeUserData(user.uid, user.displayName, user.email, user.photoURL);
+            //startDatabaseQueries();
+        } else {
+            splashPage.style.display = '';
+        }
+    });
+    
+    userName.innerHTML = firebase.auth().currentUser.displayName;
 });
