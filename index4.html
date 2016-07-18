@@ -10,7 +10,7 @@
     </head>
     
     <body>
-        <div class="container">
+        <div class="row container">
             <div class="row header">
                 <div class="large-8 medium-8 small-6 columns logo">
                     <h1>Chatting App</h1>
@@ -35,16 +35,18 @@
             </div>
 
             <div class="row">
-                <div class="large-8 medium-8 small-6 columns">
-                    <h1>Chatting App</h1>
-                </div>
+                <div class="small-12 columns">
+                    <label>
+                        <p style="margin:0; padding: 10px 0; color: #fff; font-size:17px;">Type Message:</p>
+                        <textarea placeholder="Type your message here"></textarea>
 
-                <div class="large-4 medium-4 small-6 columns account-details">
-                    <div id="user-name"></div>
-                    <div>
-                        <button id="sign-out" class=""> Sign Out</button>
-                    </div>
+                        <button type="submit" id="post-button" name="submit-btn"
+                                        class="success button" style="float:right;">Post Comments</button>
+                        <button type="reset" class="alert button" style="float:right;">Clear Comments</button>
+
+                    </label>
                 </div>
+                
             </div>
         </div>
         
