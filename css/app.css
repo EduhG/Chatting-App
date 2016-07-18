@@ -106,13 +106,8 @@ html, body {
     border-bottom: 1px solid #ddd;
 }
 
-emm
 .comment-container:nth-child(odd) {
     background: #fff;
-}
-
-.other-messages {
-/*    background: #f5f5f5;*/
 }
 
 .my-name {
@@ -122,10 +117,6 @@ emm
     text-align: left;
     color: #888;
     padding: 0;
-}
-
-.my-messages {
-/*    background: #eee;*/
 }
 
 .comment-container .label {

@@ -45,13 +45,13 @@ function getMessagesFromDB() {
             var commentsContainer = $('#comments-container');
             
             if (author === name) {
-                $('<div/>', {class: 'comment-container my-messages'})
+                $('<div/>', {class: 'comment-container'})
                     .html(message + '<br><span class="label label-default my-name"><em>' 
                         + author + '</em></span>').appendTo(commentsContainer);
 
                 commentsContainer.scrollTop(commentsContainer.prop('scrollHeight'));
             } else {
-                $('<div/>', {class: 'comment-container other-messages'})
+                $('<div/>', {class: 'comment-container'})
                     .html('<span class="label label-default">' 
                         + author + '</span>' + message).appendTo(commentsContainer);
 
@@ -92,6 +92,7 @@ $("#sign-in").click(function(){
 
 $("#sign-out").click(function(){
     firebase.auth().signOut();
+    firebase.unauth();
     
     return false;
 });
