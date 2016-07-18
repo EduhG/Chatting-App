@@ -13,23 +13,6 @@ var name, email, photoUrl, uid;
 var splashPage = document.getElementById('page-splash');
 var userName = document.getElementById('user-name');
 
-firebase.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
-    // ...
-}).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-});
-
 function writeNewPost(uid, username, message) {
     // A post entry.
     var postData = {
@@ -49,29 +32,19 @@ function writeNewPost(uid, username, message) {
     return firebase.database().ref().update(updates);
 }
 
-/**
- * Starts listening for new posts and populates posts lists.
- */
-var containerElement = document.getElementById('messages-container');
-
 function getMessagesFromDB() {
-    // [START my_top_posts_query]
     var myUserId = firebase.auth().currentUser.uid;
-    // [END my_top_posts_query]
-    // [START recent_posts_query]
+    
     var recentMessagesRef = firebase.database().ref('posts').limitToLast(100);
-    // [END recent_posts_query]
     var userMessagesRef = firebase.database().ref('user-posts/' + myUserId);
 
     var fetchPosts = function(postsRef) {
-        
         postsRef.on('child_added', function(snapshot) {
             var author = snapshot.val().author;
             var message = snapshot.val().message;
             var commentsContainer = $('#comments-container');
             
             if (author === name) {
-                console.log(name);
                 $('<div/>', {class: 'comment-container my-messages'})
                     .html('<span class="label label-default my-name" style="background: green">' 
                         + author + '</span>' + message).appendTo(commentsContainer);
@@ -97,18 +70,15 @@ $("#submit-btn").click(function(){
     if (messageInput.value) {
         var postText = messageInput.value;
         messageInput.value = '';
-        // [START single_value_read]
         var userId = firebase.auth().currentUser.uid;
         firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
             var username = snapshot.val().username;
-            // [START_EXCLUDE]
+            
             writeNewPost(
                 firebase.auth().currentUser.uid,
                 firebase.auth().currentUser.displayName,
                 postText);
-            // [END_EXCLUDE]
         });
-        // [END single_value_read]
     }
     
     return false;

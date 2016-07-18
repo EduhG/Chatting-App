@@ -3,13 +3,62 @@
 }
 
 .container {
-    max-width: 700px;
+    width: 100%;
+    max-width: 90%;
+    height: 100%;
+    margin: auto;
+    border: 1px solid #ddd;
+    background: #eee;
+}
+
+.header {
+    background: #eee;
+}
+
+.account-details {
+    text-align: right
+}
+
+.user-name {
+    display: inline-block;
+    padding: 10px;
+    padding-top: 0px !important;
+}
+
+.log-out {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 0;
+    margin-bottom: -10px;
+    height: auto;
+}
+
+.log-out button{
+    height: auto;
+    display: inline-block;
+    margin-top: 10px
 }
 
 #comments-container {
     border: 1px solid #d0d0d0;
-    height: 400px;
+    height: 500px;
     overflow-y: scroll;
+    padding-left: 20px;
+}
+
+.chats-container {
+    
+}
+
+.online-users {
+    height: 500px;
+    background: #eee;
+    border: none;
+}
+
+.list-users {
+    height: 100%;
+    border: 1px solid #ddd;
 }
 
 .comment-container {
@@ -40,3 +89,4 @@
 .comment-container:last-of-type {
     border-bottom: none;
 }
+
